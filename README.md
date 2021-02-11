@@ -1,9 +1,9 @@
-# sezzle-test-api
+### Sezzle Web API Technical Test
 
-## How To Use This API
+# How To Use This API
 
-# Test
+Test
 
-## Additional Notes
+# Additional Notes
 
-# Test
+Test

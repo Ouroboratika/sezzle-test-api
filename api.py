@@ -1,11 +1,14 @@
 import flask
+from flask import render_template
+
+# Flask Configuration
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Placeholder"
+    return render_template('home.html')
 
 @app.route('/api/v1/ops/add', methods=['POST'])
 def op_add():
@@ -22,5 +25,11 @@ def op_multiply():
 @app.route('/api/v1/ops/divide', methods=['POST'])
 def op_divide():
     pass
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404_not_found.html'),404
+
+# Local Configuration
 
 app.run()
