@@ -1,12 +1,13 @@
 import flask
 from flask import redirect, render_template, url_for
 from flask_restful import Api, Resource, reqparse
+from flask_socketio import SocketIO, emit
 
 # Flask Configuration
 
 app = flask.Flask(__name__)
 api = Api(app)
-app.config["DEBUG"] = True
+socketio = SocketIO(app)
 
 # Config Vals
 
@@ -54,6 +55,9 @@ class EqnRESTer(Resource):
         return eqns, 200
 
     def post(self):
+
+        global eqns
+
         parser = reqparse.RequestParser()
         parser.add_argument("a")
         parser.add_argument("op")
@@ -65,6 +69,8 @@ class EqnRESTer(Resource):
         if(len(eqns) >= MAX_EQNS):
             eqns.pop(0)
         eqns.append(latest_eqn)
+
+        socketio.emit('eqn_update', {"eqn_list": list(map(pretty_eqn, eqns))[::-1]}, namespace='/eqnio')
 
         return latest_eqn, 201
 
@@ -109,5 +115,6 @@ def pretty_eqn(eqn):
 
 # Launch
 
-api.add_resource(EqnRESTer, "/eqn")
-app.run()
+api.add_resource(EqnRESTer, "/api/eqn")
+#app.run(debug=True)
+socketio.run(app)
