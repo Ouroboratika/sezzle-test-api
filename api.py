@@ -32,9 +32,9 @@ def page_not_found(e):
 
 class Eqn:
     def __init__(self, a, op, b):
-        self.a = int(a)
+        self.a = float(a)
         self.op = op
-        self.b = int(b)
+        self.b = float(b)
         self.result = self.calc(self.a, self.op, self.b)
 
     def calc(self, a, op, b):
@@ -43,6 +43,8 @@ class Eqn:
         elif op == "s":
             return a - b
         elif op == "d":
+            if b == 0:
+                return "Undefined"
             return a / b
         elif op == "m":
             return a * b
@@ -105,6 +107,10 @@ eqns = []
 # Helper Funcs
 
 def pretty_eqn(eqn):
+    pretty_a = pretty_num(eqn['a'])
+    pretty_b = pretty_num(eqn['b'])
+    pretty_r = pretty_num(eqn['result'])
+
     op = eqn["op"]
     if op == "a":
         pretty_op = "+"
@@ -114,7 +120,13 @@ def pretty_eqn(eqn):
         pretty_op = "÷"
     elif op == "m":
         pretty_op = "×"
-    return "{} {} {} = {}".format(eqn["a"],pretty_op,eqn["b"],eqn["result"])
+    return "{} {} {} = {}".format(pretty_a,pretty_op,pretty_b,pretty_r)
+
+def pretty_num(num):
+    if type(num) == int or type(num) == float:
+        return '{0:g}'.format(num)
+    else:
+        return num
 
 # Launch
 
