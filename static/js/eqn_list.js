@@ -6,9 +6,13 @@ $(document).ready(
 
         //receive details from server
         socket.on('eqn_update',
-            function(eqn_list) {
-                console.log(eqn_list)
-                $('#eqn_list').html(eqn_list);
+            function(payload) {
+                eqn_list = payload.eqn_list;
+                var eqn_html = '';
+                for (var i = 0; i < eqn_list.length; i++) {
+                    eqn_html = eqn_html + '<p>' + eqn_list[i] + '</p>';
+                }
+                $('#eqn_list').html(eqn_html);
             }
         );
     }

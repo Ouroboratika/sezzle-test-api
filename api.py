@@ -88,11 +88,14 @@ class EqnRESTer(Resource):
         else:
             eqns.append(latest_eqn)
         
+        socketio.emit('eqn_update', {"eqn_list": list(map(pretty_eqn, eqns))[::-1]}, namespace='/eqnio')
+
         return latest_eqn, 201
 
     def delete(self):
         global eqns
         eqns = []
+        socketio.emit('eqn_update', {"eqn_list": list(map(pretty_eqn, eqns))[::-1]}, namespace='/eqnio')
         return "Equations list emptied", 200
 
 # Global Vars
