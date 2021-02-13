@@ -1,0 +1,10 @@
+<html>
+    {% include 'snippets/head.html' %}
+    <body>
+        <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+            {% include 'snippets/title.html' %}
+            {% block page_content %}{% endblock %}
+            {% include 'snippets/w3_credit.html' %}
+        </div>
+    </body>
+</html>

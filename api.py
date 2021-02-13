@@ -12,7 +12,6 @@ app.config["DEBUG"] = True
 
 MAX_EQNS = 10
 
-
 # App route configuration
 
 @app.route('/', methods=['GET'])
@@ -22,7 +21,7 @@ def index():
 
 @app.route('/home', methods=['GET'])
 def home():
-    return render_template('home.html')
+    return render_template('home.html', eqns = eqns, pretty_eqn = pretty_eqn)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -90,9 +89,23 @@ class EqnRESTer(Resource):
         eqns = []
         return "Equations list emptied", 200
 
-# Global vars
+# Global Vars
 
 eqns = []
+
+# Helper Funcs
+
+def pretty_eqn(eqn):
+    op = eqn["op"]
+    if op == "a":
+        pretty_op = "+"
+    elif op == "s":
+        pretty_op = "-"
+    elif op == "d":
+        pretty_op = "÷"
+    elif op == "m":
+        pretty_op = "×"
+    return "{} {} {} = {}".format(eqn["a"],pretty_op,eqn["b"],eqn["result"])
 
 # Launch
 

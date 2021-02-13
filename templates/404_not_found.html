@@ -1,14 +1,8 @@
-<html>
-    {% include 'snippets/head.html' %}
-    <body>
-        <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-            {% include 'snippets/title.html' %}
-            <div class="w3-display-uppermiddle w3-center">
-                <h1 class="w3-xxlarge w3-animate-top">404</h1>
-                <hr style="margin:auto;width:40%"/>
-                <h1 class="w3-xxlarge w3-animate-bottom">Page Not Found</h1>
-            </div>
-            {% include 'snippets/w3_credit.html' %}
-        </div>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block page_content %}
+<div class="w3-display-uppermiddle w3-center">
+    <h1 class="w3-xxlarge w3-animate-top">404</h1>
+    <hr style="margin:auto;width:40%"/>
+    <h1 class="w3-xxlarge w3-animate-bottom">Page Not Found</h1>
+</div>
+{% endblock %}

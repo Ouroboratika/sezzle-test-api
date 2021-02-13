@@ -1,14 +1,12 @@
-<html>
-    {% include 'snippets/head.html' %}
-    <body>
-        <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-            {% include 'snippets/title.html' %}
-            <div class="w3-display-uppermiddle w3-center">
-                <h1 class="w3-xxlarge w3-animate-top">Site Under Construction</h1>
-                <hr style="margin:auto;width:40%"/>
-                <p class="w3-large w3-animate-bottom">-Insert GeoCities gifs here-</p>
-            </div>
-            {% include 'snippets/w3_credit.html' %}
-        </div>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block page_content %}
+<div class="w3-display-uppermiddle w3-center">
+    <h1 class="w3-xxlarge w3-animate-top">Recent Crunches</h1>
+    <hr style="margin:auto;width:40%"/>
+    <div style=background:linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1))
+        <b>{% for eqn in eqns[::-1] %}
+            <p>{{ pretty_eqn(eqn) }}</p>
+        {% endfor %}</b>
+    </div>
+</div>
+{% endblock %}
