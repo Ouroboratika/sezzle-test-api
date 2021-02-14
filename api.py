@@ -28,6 +28,10 @@ def home():
 def page_not_found(e):
     return render_template('404_not_found.html'),404
 
+@app.errorhandler(500)
+def internal_error(e):
+    print("----- INTERNAL ERROR -----")
+
 # Classes
 
 class Eqn:
@@ -68,6 +72,9 @@ class EqnRESTer(Resource):
 
         latest_eqn = Eqn(args["a"],args["op"],args["b"]).to_dict()
 
+        if validate_eqn(latest_eqn) == None:
+            return None, 500
+
         if(len(eqns) >= MAX_EQNS):
             eqns.pop(0)
         eqns.append(latest_eqn)
@@ -84,6 +91,9 @@ class EqnRESTer(Resource):
         args = parser.parse_args()
 
         latest_eqn = Eqn(args["a"],args["op"],args["b"]).to_dict()
+
+        if validate_eqn(latest_eqn) == None:
+            return None, 500
 
         if len(eqns) > 0:
             eqns[-1] = latest_eqn
@@ -110,8 +120,8 @@ def pretty_eqn(eqn):
     pretty_a = pretty_num(eqn['a'])
     pretty_b = pretty_num(eqn['b'])
     pretty_r = pretty_num(eqn['result'])
+    op = eqn['op']
 
-    op = eqn["op"]
     if op == "a":
         pretty_op = "+"
     elif op == "s":
@@ -127,6 +137,12 @@ def pretty_num(num):
         return '{0:g}'.format(num)
     else:
         return num
+
+def validate_eqn(eqn):
+    try:
+        return pretty_eqn(eqn)
+    except:
+        return None
 
 # Launch
 
