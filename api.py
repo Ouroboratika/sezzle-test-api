@@ -1,4 +1,7 @@
+import os
+
 import flask
+from dotenv import load_dotenv
 from flask import redirect, render_template, url_for
 from flask_restful import Api, Resource, reqparse
 from flask_socketio import SocketIO, emit
@@ -9,10 +12,15 @@ app = flask.Flask(__name__)
 api = Api(app)
 socketio = SocketIO(app)
 
-# Config Vals
+here = os.path.dirname(__file__)
+load_dotenv(os.path.join(here, '.env'))
 
-# The maximum number of equations to display at once.
-MAX_EQNS = 10
+class Config(object):
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SEZZLE_APP_PORT = os.environ.get('SEZZLE_APP_PORT') or 5000
+    MAX_EQNS = 10
+
+app.config.from_object(Config)
 
 # App route configuration
 
@@ -79,7 +87,7 @@ class EqnRESTer(Resource):
         if validate_eqn(latest_eqn) == None:
             return None, 500
 
-        if(len(eqns) >= MAX_EQNS):
+        if(len(eqns) >= app.config['MAX_EQNS']):
             eqns.pop(0)
         eqns.append(latest_eqn)
 
@@ -159,6 +167,5 @@ def validate_eqn(eqn):
         return None
 
 # Launch
-
 api.add_resource(EqnRESTer, "/api/eqn")
-socketio.run(app)
+socketio.run(app, port=app.config['SEZZLE_APP_PORT'])
