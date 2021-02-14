@@ -1,10 +1,10 @@
 
 $(document).ready(
     function(){
-        //connect to the socket server.
+        // Establish a connection to the socket
         var socket = io.connect('http://' + document.domain + ':' + location.port + '/eqnio');
 
-        //receive details from server
+        // Process an update to the list of equations. They are received pre-pretty-ified.
         socket.on('eqn_update',
             function(payload) {
                 eqn_list = payload.eqn_list;
